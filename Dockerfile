@@ -1,20 +1,16 @@
-FROM node:20
+FROM node:20-alpine
 
-# Create app directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+COPY pakage*.json ./
 
-# Install dependencies
-RUN npm install
+RUN npm ci --omit=dev && npm cache clean --force
 
-# Copy application code
 COPY . .
 
-# Expose app port
+ENV NODE_ENV=production
+
 EXPOSE 3000
 
-# Start application
 CMD ["node", "server.js"]
 
